@@ -2,78 +2,75 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.5, maximum-scale=1.5, user-scalable=no" />
   <title>Enviar ubicación por WhatsApp</title>
   <style>
     body {
       font-family: Arial, sans-serif;
       text-align: center;
-      margin-top: 80px;
+      margin-top: 100px;
       background: #f9f9f9;
+      /* Aumentamos la escala general del contenido */
+      /* Otra opción sería usar transform: scale(1.5) en un contenedor */
     }
     #btnWhatsApp {
       display: inline-flex;
       align-items: center;
+      justify-content: center;
       background-color: #25D366;
       color: white;
-      font-size: 24px;
+      font-size: 36px; /* más grande */
       font-weight: bold;
-      padding: 20px 40px;
+      padding: 30px 60px; /* más grande */
       border: none;
-      border-radius: 50px;
+      border-radius: 60px;
       cursor: pointer;
-      box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+      box-shadow: 0 8px 16px rgba(0,0,0,0.3);
       user-select: none;
-      animation: pulse 2s infinite;
       transition: background-color 0.3s ease;
+      width: 90vw; /* ancho casi total en móvil */
+      max-width: 600px;
+      margin: 0 auto;
+      letter-spacing: 1.2px;
     }
     #btnWhatsApp:hover {
       background-color: #1ebe57;
-      animation: none;
     }
     #btnWhatsApp svg {
-      width: 32px;
-      height: 32px;
-      margin-right: 15px;
+      width: 48px;
+      height: 48px;
+      margin-right: 20px;
       fill: white;
+      flex-shrink: 0;
     }
     #mensaje {
-      margin-top: 20px;
-      font-size: 18px;
+      margin-top: 30px;
+      font-size: 24px;
       color: red;
-      min-height: 24px;
+      min-height: 28px;
     }
     #invitar {
-      margin-bottom: 30px;
-      font-size: 22px;
+      margin-bottom: 40px;
+      font-size: 28px;
       color: #333;
-      font-weight: 600;
+      font-weight: 700;
       display: flex;
       justify-content: center;
       align-items: center;
-      gap: 10px;
+      gap: 15px;
     }
-    /* Flecha animada */
     #invitar svg {
-      width: 30px;
-      height: 30px;
+      width: 40px;
+      height: 40px;
       fill: #25D366;
       animation: bounce 1.5s infinite;
-    }
-
-    @keyframes pulse {
-      0%, 100% {
-        box-shadow: 0 6px 12px rgba(0, 211, 102, 0.6);
-      }
-      50% {
-        box-shadow: 0 6px 20px rgba(0, 211, 102, 1);
-      }
     }
     @keyframes bounce {
       0%, 100% {
         transform: translateY(0);
       }
       50% {
-        transform: translateY(-10px);
+        transform: translateY(-12px);
       }
     }
   </style>
