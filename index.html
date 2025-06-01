@@ -1,3 +1,65 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Enviar ubicación por WhatsApp</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin-top: 50px;
+    }
+    #logoCNT {
+      width: 120px;
+      margin-bottom: 30px;
+    }
+    #btnWhatsApp {
+      display: inline-flex;
+      align-items: center;
+      background-color: #25D366;
+      color: white;
+      font-size: 24px;
+      font-weight: bold;
+      padding: 20px 40px;
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+      transition: background-color 0.3s ease;
+      user-select: none;
+    }
+    #btnWhatsApp:hover {
+      background-color: #1ebe57;
+    }
+    #btnWhatsApp svg {
+      width: 32px;
+      height: 32px;
+      margin-right: 15px;
+      fill: white;
+    }
+    #mensaje {
+      margin-top: 20px;
+      font-size: 18px;
+      color: red;
+      min-height: 24px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Logo CNT -->
+  <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/CNT_Logo.svg/1200px-CNT_Logo.svg.png" alt="Logo CNT" id="logoCNT" />
+
+  <button id="btnWhatsApp" onclick="enviarUbicacionWhatsApp()">
+    <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+      <path d="M16 3C9.372 3 4 8.373 4 15c0 2.636.87 5.067 2.343 7.02L5 29l7.234-1.946A11.922 11.922 0 0016 27c6.627 0 12-5.373 12-12S22.627 3 16 3zm6.735 17.334c-.246.69-1.448 1.32-1.985 1.41-.504.086-1.096.124-2.176-.248-2.524-.784-4.164-3.296-4.29-3.448-.124-.152-1.01-1.214-1.01-2.317 0-1.103.564-1.646.766-1.867.199-.221.435-.273.67-.273.246 0 .5.002.718.005.231.005.34.033.49.47.15.434.505 1.495.547 1.606.041.112.068.244.015.393-.052.15-.078.244-.152.37-.078.125-.166.274-.234.368-.078.112-.163.234-.07.378.09.145.397.646.85 1.04 1.17.988 2.148 1.33 2.49 1.483.346.156.55.132.75-.078.2-.211.85-1.003 1.08-1.353.234-.35.466-.293.79-.176.325.118 2.053.968 2.407 1.145.354.176.59.264.676.413.087.15.087.868-.16 1.558z"/>
+    </svg>
+    Enviar mi ubicación por WhatsApp
+  </button>
+
+  <p id="mensaje"></p>
+
+  <script>
 function enviarUbicacionWhatsApp() {
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(
@@ -20,3 +82,8 @@ function enviarUbicacionWhatsApp() {
     alert('Tu navegador no soporta geolocalización.');
   }
 }
+
+  </script>
+
+</body>
+</html>
