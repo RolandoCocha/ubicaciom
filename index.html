@@ -1,25 +1,46 @@
-<!DOCTYPE html>
+# Nueva versión del archivo index.html que incluye:
+# - Mostrar coordenadas
+# - Botón para abrir Google Maps
+# - Botón para enviar la ubicación por WhatsApp
+
+html_actualizado = """<!DOCTYPE html>
 <html>
 <head>
   <title>Ubicación actual</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
-<body>
-  <h2>Obteniendo tu ubicación...</h2>
-  <p id="resultado">Esperando permiso...</p>
+<body style="font-family: sans-serif; text-align: center; padding: 40px;">
+  <h2>📍 Obteniendo tu ubicación...</h2>
+  <p id="resultado">Esperando permiso del navegador...</p>
 
   <script>
     navigator.geolocation.getCurrentPosition(
       function(pos) {
         const lat = pos.coords.latitude.toFixed(6);
         const lon = pos.coords.longitude.toFixed(6);
-        document.getElementById("resultado").innerHTML =
-          `Tu ubicación es: <br><strong>${lat}, ${lon}</strong><br><br><a href="https://maps.google.com/?q=${lat},${lon}" target="_blank">Ver en Google Maps</a>`;
+        const enlaceMaps = `https://maps.google.com/?q=${lat},${lon}`;
+        const enlaceWhatsapp = `https://api.whatsapp.com/send?text=📍%20Mi%20ubicaci%C3%B3n%20es:%20${encodeURIComponent(enlaceMaps)}`;
+
+        document.getElementById("resultado").innerHTML = `
+          ✅ Tu ubicación es:<br><strong>${lat}, ${lon}</strong><br><br>
+          <a href="${enlaceMaps}" target="_blank" style="display: inline-block; margin: 10px; padding: 10px 20px; background: #4CAF50; color: white; text-decoration: none; border-radius: 5px;">🌍 Ver en Google Maps</a><br>
+          <a href="${enlaceWhatsapp}" target="_blank" style="display: inline-block; margin: 10px; padding: 10px 20px; background: #25D366; color: white; text-decoration: none; border-radius: 5px;">💬 Enviar por WhatsApp</a>
+        `;
       },
       function(err) {
         document.getElementById("resultado").textContent =
-          "No se pudo obtener la ubicación: " + err.message;
+          "❌ No se pudo obtener la ubicación: " + err.message;
       }
     );
   </script>
 </body>
 </html>
+"""
+
+# Guardar nueva versión del archivo
+ruta_archivo_nuevo = "/mnt/data/index_actualizado.html"
+with open(ruta_archivo_nuevo, "w", encoding="utf-8") as f:
+    f.write(html_actualizado)
+
+ruta_archivo_nuevo  # Mostrar la ruta de descarga
+
