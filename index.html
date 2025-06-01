@@ -2,16 +2,25 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.5, maximum-scale=1.5, user-scalable=no" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
   <title>Enviar ubicación por WhatsApp</title>
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      text-align: center;
-      margin-top: 100px;
+    html, body {
+      margin: 0;
+      padding: 0;
+      overflow-x: hidden;
+      overflow-y: auto;
+      width: 100vw;
+      height: 100vh;
+      box-sizing: border-box;
       background: #f9f9f9;
-      /* Aumentamos la escala general del contenido */
-      /* Otra opción sería usar transform: scale(1.5) en un contenedor */
+      font-family: Arial, sans-serif;
+    }
+    body {
+      max-width: 100vw;
+      max-height: 100vh;
+      text-align: center;
+      padding-top: 80px;
     }
     #btnWhatsApp {
       display: inline-flex;
@@ -19,39 +28,40 @@
       justify-content: center;
       background-color: #25D366;
       color: white;
-      font-size: 36px; /* más grande */
+      font-size: 32px;
       font-weight: bold;
-      padding: 30px 60px; /* más grande */
+      padding: 25px 40px;
       border: none;
       border-radius: 60px;
       cursor: pointer;
       box-shadow: 0 8px 16px rgba(0,0,0,0.3);
       user-select: none;
       transition: background-color 0.3s ease;
-      width: 90vw; /* ancho casi total en móvil */
+      width: calc(100vw - 40px);
       max-width: 600px;
       margin: 0 auto;
-      letter-spacing: 1.2px;
+      letter-spacing: 1.1px;
+      box-sizing: border-box;
     }
     #btnWhatsApp:hover {
       background-color: #1ebe57;
     }
     #btnWhatsApp svg {
-      width: 48px;
-      height: 48px;
-      margin-right: 20px;
+      width: 44px;
+      height: 44px;
+      margin-right: 18px;
       fill: white;
       flex-shrink: 0;
     }
     #mensaje {
       margin-top: 30px;
-      font-size: 24px;
+      font-size: 22px;
       color: red;
       min-height: 28px;
     }
     #invitar {
-      margin-bottom: 40px;
-      font-size: 28px;
+      margin-bottom: 30px;
+      font-size: 24px;
       color: #333;
       font-weight: 700;
       display: flex;
@@ -60,8 +70,8 @@
       gap: 15px;
     }
     #invitar svg {
-      width: 40px;
-      height: 40px;
+      width: 36px;
+      height: 36px;
       fill: #25D366;
       animation: bounce 1.5s infinite;
     }
