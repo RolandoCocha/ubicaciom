@@ -7,11 +7,8 @@
     body {
       font-family: Arial, sans-serif;
       text-align: center;
-      margin-top: 50px;
-    }
-    #logoCNT {
-      width: 120px;
-      margin-bottom: 30px;
+      margin-top: 80px;
+      background: #f9f9f9;
     }
     #btnWhatsApp {
       display: inline-flex;
@@ -25,11 +22,13 @@
       border-radius: 50px;
       cursor: pointer;
       box-shadow: 0 6px 12px rgba(0,0,0,0.2);
-      transition: background-color 0.3s ease;
       user-select: none;
+      animation: pulse 2s infinite;
+      transition: background-color 0.3s ease;
     }
     #btnWhatsApp:hover {
       background-color: #1ebe57;
+      animation: none;
     }
     #btnWhatsApp svg {
       width: 32px;
@@ -43,12 +42,50 @@
       color: red;
       min-height: 24px;
     }
+    #invitar {
+      margin-bottom: 30px;
+      font-size: 22px;
+      color: #333;
+      font-weight: 600;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+    }
+    /* Flecha animada */
+    #invitar svg {
+      width: 30px;
+      height: 30px;
+      fill: #25D366;
+      animation: bounce 1.5s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% {
+        box-shadow: 0 6px 12px rgba(0, 211, 102, 0.6);
+      }
+      50% {
+        box-shadow: 0 6px 20px rgba(0, 211, 102, 1);
+      }
+    }
+    @keyframes bounce {
+      0%, 100% {
+        transform: translateY(0);
+      }
+      50% {
+        transform: translateY(-10px);
+      }
+    }
   </style>
 </head>
 <body>
 
-  <!-- Logo CNT -->
-  <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/CNT_Logo.svg/1200px-CNT_Logo.svg.png" alt="Logo CNT" id="logoCNT" />
+  <div id="invitar">
+    <span>Por favor, pulsa aquí para enviar tu ubicación</span>
+    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+      <path d="M12 2L10.59 3.41 17.17 10H2v2h15.17l-6.58 6.59L12 22l10-10z"/>
+    </svg>
+  </div>
 
   <button id="btnWhatsApp" onclick="enviarUbicacionWhatsApp()">
     <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
@@ -60,29 +97,30 @@
   <p id="mensaje"></p>
 
   <script>
-function enviarUbicacionWhatsApp() {
-  if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(
-      function(pos) {
-        const lat = pos.coords.latitude.toFixed(6);
-        const lon = pos.coords.longitude.toFixed(6);
-        const mensaje = encodeURIComponent(`Hola, esta es mi ubicación actual:\nhttps://www.google.com/maps?q=${lat},${lon}`);
+    function enviarUbicacionWhatsApp() {
+      const mensajeElem = document.getElementById('mensaje');
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          function(pos) {
+            const lat = pos.coords.latitude.toFixed(6);
+            const lon = pos.coords.longitude.toFixed(6);
+            const mensaje = encodeURIComponent(`Hola, esta es mi ubicación actual:\nhttps://www.google.com/maps?q=${lat},${lon}`);
 
-        // Cambia el número por el tuyo, sin "+"
-        const numeroWhatsApp = '593968963177';
+            // Cambia este número por tu número de WhatsApp en formato internacional sin "+"
+            const numeroWhatsApp = '593968963177';
 
-        const url = `https://wa.me/${numeroWhatsApp}?text=${mensaje}`;
-        window.open(url, '_blank');
-      },
-      function(error) {
-        alert('Error al obtener la ubicación: ' + error.message);
+            const url = `https://wa.me/${numeroWhatsApp}?text=${mensaje}`;
+            window.open(url, '_blank');
+            mensajeElem.textContent = '';
+          },
+          function(error) {
+            mensajeElem.textContent = 'Error al obtener ubicación: ' + error.message;
+          }
+        );
+      } else {
+        mensajeElem.textContent = 'Tu navegador no soporta geolocalización.';
       }
-    );
-  } else {
-    alert('Tu navegador no soporta geolocalización.');
-  }
-}
-
+    }
   </script>
 
 </body>
