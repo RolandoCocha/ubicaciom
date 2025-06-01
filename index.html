@@ -2,64 +2,36 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <title>Enviar ubicación</title>
+  <title>Enviar ubicación por WhatsApp</title>
 </head>
 <body>
-  <h2>Compartir tu ubicación actual</h2>
-  <button onclick="obtenerUbicacion()">Obtener mi ubicación</button>
+  <button onclick="enviarUbicacionWhatsApp()">Enviar mi ubicación por WhatsApp</button>
 
   <p id="mensaje"></p>
-  <p id="coordenadas"></p>
-
-  <!-- Botones para enviar -->
-  <button id="btnCorreo" style="display:none;" onclick="enviarCorreo()">Enviar por correo</button>
-  <button id="btnWhatsApp" style="display:none;" onclick="enviarWhatsApp()">Enviar por WhatsApp</button>
 
   <script>
-    let lat = null;
-    let lon = null;
-
-    function obtenerUbicacion() {
+    function enviarUbicacionWhatsApp() {
+      const mensajeElem = document.getElementById('mensaje');
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(
           function(pos) {
-            lat = pos.coords.latitude.toFixed(6);
-            lon = pos.coords.longitude.toFixed(6);
+            const lat = pos.coords.latitude.toFixed(6);
+            const lon = pos.coords.longitude.toFixed(6);
+            const mensaje = encodeURIComponent(`Hola, esta es mi ubicación actual:\nhttps://www.google.com/maps?q=${lat},${lon}`);
 
-            document.getElementById('mensaje').textContent = 'Ubicación obtenida:';
-            document.getElementById('coordenadas').textContent = `Latitud: ${lat}, Longitud: ${lon}`;
+            // Cambia por tu número WhatsApp con formato internacional sin "+"
+            const numeroWhatsApp = '1234567890';
 
-            document.getElementById('btnCorreo').style.display = 'inline-block';
-            document.getElementById('btnWhatsApp').style.display = 'inline-block';
+            const url = `https://wa.me/${numeroWhatsApp}?text=${mensaje}`;
+            window.open(url, '_blank');
+            mensajeElem.textContent = '';
           },
           function(error) {
-            document.getElementById('mensaje').textContent = 'Error al obtener la ubicación: ' + error.message;
-            document.getElementById('coordenadas').textContent = '';
-            document.getElementById('btnCorreo').style.display = 'none';
-            document.getElementById('btnWhatsApp').style.display = 'none';
+            mensajeElem.textContent = 'Error al obtener ubicación: ' + error.message;
           }
         );
       } else {
-        document.getElementById('mensaje').textContent = 'Tu navegador no soporta geolocalización.';
-      }
-    }
-
-    function enviarCorreo() {
-      if (lat && lon) {
-        const asunto = encodeURIComponent('Mi ubicación actual');
-        const cuerpo = encodeURIComponent(`Estas son mis coordenadas:\nLatitud: ${lat}\nLongitud: ${lon}\nhttps://www.google.com/maps?q=${lat},${lon}`);
-        const email = 'tucorreo@ejemplo.com'; // Cambia este correo por el tuyo
-        window.location.href = `mailto:${email}?subject=${asunto}&body=${cuerpo}`;
-      }
-    }
-
-    function enviarWhatsApp() {
-      if (lat && lon) {
-        const mensaje = encodeURIComponent(`Hola, estas son mis coordenadas:\nLatitud: ${lat}\nLongitud: ${lon}\nhttps://www.google.com/maps?q=${lat},${lon}`);
-        // Cambia el número abajo por tu número WhatsApp en formato internacional sin +
-        const numeroWhatsApp = '593968963177'; 
-        const url = `https://wa.me/${numeroWhatsApp}?text=${mensaje}`;
-        window.open(url, '_blank');
+        mensajeElem.textContent = 'Tu navegador no soporta geolocalización.';
       }
     }
   </script>
