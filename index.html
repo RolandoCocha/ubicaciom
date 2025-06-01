@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Ubicación actual</title>
+</head>
+<body>
+  <h2>Obteniendo tu ubicación...</h2>
+  <p id="resultado">Esperando permiso...</p>
+
+  <script>
+    navigator.geolocation.getCurrentPosition(
+      function(pos) {
+        const lat = pos.coords.latitude.toFixed(6);
+        const lon = pos.coords.longitude.toFixed(6);
+        document.getElementById("resultado").innerHTML =
+          `Tu ubicación es: <br><strong>${lat}, ${lon}</strong><br><br><a href="https://maps.google.com/?q=${lat},${lon}" target="_blank">Ver en Google Maps</a>`;
+      },
+      function(err) {
+        document.getElementById("resultado").textContent =
+          "No se pudo obtener la ubicación: " + err.message;
+      }
+    );
+  </script>
+</body>
+</html>
