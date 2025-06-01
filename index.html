@@ -6,7 +6,6 @@
 </head>
 <body>
   <button onclick="enviarUbicacionWhatsApp()">Enviar mi ubicación por WhatsApp</button>
-
   <p id="mensaje"></p>
 
   <script>
@@ -19,8 +18,8 @@
             const lon = pos.coords.longitude.toFixed(6);
             const mensaje = encodeURIComponent(`Hola, esta es mi ubicación actual:\nhttps://www.google.com/maps?q=${lat},${lon}`);
 
-            // Cambia por tu número WhatsApp con formato internacional sin "+"
-            const numeroWhatsApp = '1234567890';
+            // Cambia este número por tu número de WhatsApp en formato internacional sin "+"
+            const numeroWhatsApp = '593968963177';
 
             const url = `https://wa.me/${numeroWhatsApp}?text=${mensaje}`;
             window.open(url, '_blank');
