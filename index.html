@@ -1,46 +1,67 @@
-# Nueva versión del archivo index.html que incluye:
-# - Mostrar coordenadas
-# - Botón para abrir Google Maps
-# - Botón para enviar la ubicación por WhatsApp
-
-html_actualizado = """<!DOCTYPE html>
-<html>
+<!DOCTYPE html>
+<html lang="es">
 <head>
-  <title>Ubicación actual</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <title>Enviar ubicación</title>
 </head>
-<body style="font-family: sans-serif; text-align: center; padding: 40px;">
-  <h2>📍 Obteniendo tu ubicación...</h2>
-  <p id="resultado">Esperando permiso del navegador...</p>
+<body>
+  <h2>Compartir tu ubicación actual</h2>
+  <button onclick="obtenerUbicacion()">Obtener mi ubicación</button>
+
+  <p id="mensaje"></p>
+  <p id="coordenadas"></p>
+
+  <!-- Botones para enviar -->
+  <button id="btnCorreo" style="display:none;" onclick="enviarCorreo()">Enviar por correo</button>
+  <button id="btnWhatsApp" style="display:none;" onclick="enviarWhatsApp()">Enviar por WhatsApp</button>
 
   <script>
-    navigator.geolocation.getCurrentPosition(
-      function(pos) {
-        const lat = pos.coords.latitude.toFixed(6);
-        const lon = pos.coords.longitude.toFixed(6);
-        const enlaceMaps = `https://maps.google.com/?q=${lat},${lon}`;
-        const enlaceWhatsapp = `https://api.whatsapp.com/send?text=📍%20Mi%20ubicaci%C3%B3n%20es:%20${encodeURIComponent(enlaceMaps)}`;
+    let lat = null;
+    let lon = null;
 
-        document.getElementById("resultado").innerHTML = `
-          ✅ Tu ubicación es:<br><strong>${lat}, ${lon}</strong><br><br>
-          <a href="${enlaceMaps}" target="_blank" style="display: inline-block; margin: 10px; padding: 10px 20px; background: #4CAF50; color: white; text-decoration: none; border-radius: 5px;">🌍 Ver en Google Maps</a><br>
-          <a href="${enlaceWhatsapp}" target="_blank" style="display: inline-block; margin: 10px; padding: 10px 20px; background: #25D366; color: white; text-decoration: none; border-radius: 5px;">💬 Enviar por WhatsApp</a>
-        `;
-      },
-      function(err) {
-        document.getElementById("resultado").textContent =
-          "❌ No se pudo obtener la ubicación: " + err.message;
+    function obtenerUbicacion() {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          function(pos) {
+            lat = pos.coords.latitude.toFixed(6);
+            lon = pos.coords.longitude.toFixed(6);
+
+            document.getElementById('mensaje').textContent = 'Ubicación obtenida:';
+            document.getElementById('coordenadas').textContent = `Latitud: ${lat}, Longitud: ${lon}`;
+
+            document.getElementById('btnCorreo').style.display = 'inline-block';
+            document.getElementById('btnWhatsApp').style.display = 'inline-block';
+          },
+          function(error) {
+            document.getElementById('mensaje').textContent = 'Error al obtener la ubicación: ' + error.message;
+            document.getElementById('coordenadas').textContent = '';
+            document.getElementById('btnCorreo').style.display = 'none';
+            document.getElementById('btnWhatsApp').style.display = 'none';
+          }
+        );
+      } else {
+        document.getElementById('mensaje').textContent = 'Tu navegador no soporta geolocalización.';
       }
-    );
+    }
+
+    function enviarCorreo() {
+      if (lat && lon) {
+        const asunto = encodeURIComponent('Mi ubicación actual');
+        const cuerpo = encodeURIComponent(`Estas son mis coordenadas:\nLatitud: ${lat}\nLongitud: ${lon}\nhttps://www.google.com/maps?q=${lat},${lon}`);
+        const email = 'tucorreo@ejemplo.com'; // Cambia este correo por el tuyo
+        window.location.href = `mailto:${email}?subject=${asunto}&body=${cuerpo}`;
+      }
+    }
+
+    function enviarWhatsApp() {
+      if (lat && lon) {
+        const mensaje = encodeURIComponent(`Hola, estas son mis coordenadas:\nLatitud: ${lat}\nLongitud: ${lon}\nhttps://www.google.com/maps?q=${lat},${lon}`);
+        // Cambia el número abajo por tu número WhatsApp en formato internacional sin +
+        const numeroWhatsApp = '1234567890'; 
+        const url = `https://wa.me/${numeroWhatsApp}?text=${mensaje}`;
+        window.open(url, '_blank');
+      }
+    }
   </script>
 </body>
 </html>
-"""
-
-# Guardar nueva versión del archivo
-ruta_archivo_nuevo = "/mnt/data/index_actualizado.html"
-with open(ruta_archivo_nuevo, "w", encoding="utf-8") as f:
-    f.write(html_actualizado)
-
-ruta_archivo_nuevo  # Mostrar la ruta de descarga
-
